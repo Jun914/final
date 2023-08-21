@@ -34,11 +34,21 @@ pipeline {
                     def json = readJSON text: "$response"
                     def id = json.id
                       
-                    sh """
-                          wget --header="Authorization: Bearer ${GITHUB_CRED_PSW}" -O 1_project-v1.0.0.py
-                             "https://api.github.com/${GIT_USERNAME}/${GIT_REPO}/releases/assets/${id}"
-                        """
+                  
+                     sh """
+    wget --header="Authorization: Bearer ${GITHUB_CRED_PSW}" -O 1_project-v1.0.0.py \\
+    "https://api.github.com/repos/${GIT_USERNAME}/${GIT_REPO}/releases/assets/${id}"
+        """
+
                 }
+            }
+        }
+     post {
+        cleanup {    //이메일 알림을 보내고 작업 영역을 삭제
+            emailext subject: '$DEFAULT_SUBJECT',
+                     to: 'k01099403344@gmail.com',
+                     body: '$DEFAULT_CONTENT'
+            cleanWs() // 작업이 완료되면 임시 파일이나 빌드 관련 데이터 등을 제거
             }
         }
     }
