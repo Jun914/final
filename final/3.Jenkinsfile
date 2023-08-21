@@ -28,18 +28,15 @@ pipeline {
                                     "draft":false,
                                     "prerelease":false,
                                     "generate_release_notes":false
-                                }'
-                    """, returnStdout: true) // 스크립트 실행 후 출력 결과를 response 변수에 저장!
+                                }' """, returnStdout: true) // 스크립트 실행 후 출력 결과를 response 변수에 저장!
                     
                     def json = readJSON text: "$response"
                     def id = json.id
                       
-                  
                      sh """
-    wget --header="Authorization: Bearer ${GITHUB_CRED_PSW}" -O 1_project-v1.0.0.py \\
-    "https://api.github.com/repos/${GIT_USERNAME}/${GIT_REPO}/releases/assets/${id}"
-        """
-
+                        wget --header="Authorization: Bearer ${GITHUB_CRED_PSW}" -O 1_project-v1.0.0.py \\
+                        "https://api.github.com/repos/${GIT_USERNAME}/${GIT_REPO}/releases/assets/${id}"
+                        """
                 }
             }
         }
