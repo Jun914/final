@@ -40,13 +40,14 @@ pipeline {
                 }
             }
         }
-     post {
-        cleanup {    //이메일 알림을 보내고 작업 영역을 삭제
+    }
+    post {
+        always {
             emailext subject: '$DEFAULT_SUBJECT',
                      to: 'k01099403344@gmail.com',
                      body: '$DEFAULT_CONTENT'
             cleanWs() // 작업이 완료되면 임시 파일이나 빌드 관련 데이터 등을 제거
-            }
+
         }
     }
 }
