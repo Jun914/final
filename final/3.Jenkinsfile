@@ -24,7 +24,23 @@ pipeline {
                     }
                 }
             }
-	
+		
+   		stage('Extract Archive') {
+            	steps {
+                	script {
+                    def jsonContent = sh(script: 'cat test-v11.0.0.tar.gz', returnStdout: true).trim()
+                    def jsonData = readJSON text: jsonContent
+                    def base64EncodedFile = jsonData.base64_encoded_file
+                    
+                    sh """
+                        echo "$base64EncodedFile" | base64 -d > test.tar.gz
+                        tar -xvf test.tar.gz
+                    """
+                }
+            }
+        }
+
+
 		stage('가져온 파일 압축 해제') {
             steps {
                 script {
