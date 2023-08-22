@@ -17,27 +17,13 @@ pipeline {
         stage('Release에서 파일 가져오기') {
             steps {
                 script {
-	        def downloadUrl = sh(script: """
-                        curl -sSL -H "Authorization: Bearer ${GITHUB_CRED_PSW}" \
-                        "https://api.github.com/repos/${GIT_USERNAME}/${GIT_REPO}/releases/assets/${id}" | \
-                        jq -r '.browser_download_url'
-                    """, returnStdout: true).trim()
-
-                    sh "wget --header='Authorization: Bearer ${GITHUB_CRED_PSW}' -O ${GIT_REPO}-${TAG_VERSION}.tar.gz '${downloadUrl}'"
-                       
+	          sh """
+                          wget --header="Authorization: Bearer ${GITHUB_CRED_PSW}" -O Dockerfile \
+                             "https://api.github.com/repos/${GIT_USERNAME}/${GIT_REPO}/releases/assets/${id}"
+                            """
+                    }
                 }
             }
-}
-
-
-		stage('가져온 파일 압축 해제') {
-            steps {
-                script {
-					sh 'cd ${DOCKERFILE_PATH}'
-					sh 'tar -xvf ${GIT_REPO}-${TAG_VERSION}.tar.gz'
-				}
-			}
-		}
 
 
        stage('Dockerfile 이미지로 빌드') {
