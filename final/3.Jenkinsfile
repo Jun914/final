@@ -5,7 +5,7 @@ pipeline {
         GIT_REPO = '1_project'
         GIT_USERNAME = 'Jun914'
         TAG_VERSION = 'v5.0.2'
-        id = readFile("${JENKINS_HOME}/workspace/release_project/release_id2.txt").trim()
+        // id = readFile("${JENKINS_HOME}/workspace/release_project/release_id2.txt").trim()
         DOCKER_CREDENTIAL = credentials('docker-cred')
         IMAGE_TAG_NAME = 'test'
 		WORK_PATH = '/var/lib/jenkins/workspace/final_project'
@@ -19,7 +19,7 @@ pipeline {
                 script {
 	          sh """
                           wget --header="Authorization: Bearer ${GITHUB_CRED_PSW}" -O Dockerfile \
-                             "https://api.github.com/repos/${GIT_USERNAME}/${GIT_REPO}/releases/assets/${id}"
+                             "https://api.github.com/repos/${GIT_USERNAME}/${GIT_REPO}/releases/assets/122573272"
                             """
                     }
                 }
