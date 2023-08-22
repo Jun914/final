@@ -4,7 +4,7 @@ pipeline {
         GITHUB_CRED = credentials('git_cred') 
         GIT_REPO = '1_project'
         GIT_USERNAME = 'Jun914'
-        TAG_VERSION = 'v5.0.2'
+        TAG_VERSION = 'v5.0.1'
         id = readFile("${JENKINS_HOME}/workspace/release_project/release_id2.txt").trim()
         DOCKER_CREDENTIAL = 'docker-cred'
         IMAGE_TAG_NAME = 'test'
@@ -18,7 +18,7 @@ pipeline {
             steps {
                 script {
                          sh """
-                          wget --header="Authorization: Bearer ${GITHUB_CRED_PSW}" -O 1.tar.gz \
+                          wget --header="Authorization: Bearer ${GITHUB_CRED_PSW}" -O ${GIT_REPO}-${TAG_VERSION}.tar.gz \
                              "https://api.github.com/repos/${GIT_USERNAME}/${GIT_REPO}/releases/assets/${id}"
                             """
                     }
@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
 					sh 'cd ${DOCKERFILE_PATH}'
-					sh 'tar -xvf 1.tar.gz'
+					sh 'tar -xvf ${GIT_REPO}-${TAG_VERSION}.tar.gz'
 				}
 			}
 		}
