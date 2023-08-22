@@ -5,7 +5,7 @@ pipeline {
         GIT_REPO = '1_project'
         GIT_USERNAME = 'Jun914'
         TAG_VERSION = 'v1.0.0'
-        id = cat "${JENKINS_HOME}/workspace/release_project/release_id.txt"
+        id = readFile("${JENKINS_HOME}/workspace/release_project/release_id.txt").trim()
     }
     triggers {
         githubPush()
