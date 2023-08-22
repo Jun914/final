@@ -27,7 +27,7 @@ pipeline {
 		stage('가져온 파일 압축 해제') {
             steps {
                 script {
-					sh 'tar -zvxf ${GIT_REPO}-${TAG_VERSION}.tar.gz ${DOCKERFILE_PATH}'
+					sh 'tar -zvxf ${DOCKERFILE_PATH}/${GIT_REPO}-${TAG_VERSION}.tar.gz'
 				}
 			}
 		}
