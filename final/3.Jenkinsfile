@@ -8,7 +8,7 @@ pipeline {
         id = readFile("${JENKINS_HOME}/workspace/release_project/release_id2.txt").trim()
         DOCKER_CREDENTIAL = 'docker-cred'
         IMAGE_TAG_NAME = 'test'
-		DOCKERFILE_PATH = '/var/lib/jenkins/workspace/final_project/'
+		DOCKERFILE_PATH = '/var/lib/jenkins/workspace/final_project'
    }
     triggers {
         githubPush()
