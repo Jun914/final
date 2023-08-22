@@ -14,30 +14,30 @@ pipeline {
         githubPush()
     }
     stages {
-        stage('Release에서 파일 가져오기') {
-            steps {
-                script {
-	          sh """
-                          wget --header="Authorization: Bearer ${GITHUB_CRED_PSW}" -O Dockerfile \
-                             "https://api.github.com/repos/${GIT_USERNAME}/${GIT_REPO}/releases/assets/${id}"
-                            """
-                    }
-                }
-            }
-		stage('Dockerfile 생성) {
-			steps {
-				script {	
-					def dockerfileContent = sh(script: "cat ${WORK_PATH}", returnStdout: true).trim()
-                    sh "echo '${dockerfileContent}' > ${WORK_PATH}/my.Dockerfile"
-		}
-	}
-}
+       // stage('Release에서 파일 가져오기') {
+        //    steps {
+         //       script {
+	    //      sh """
+                 //         wget --header="Authorization: Bearer ${GITHUB_CRED_PSW}" -O Dockerfile \
+                  //           "https://api.github.com/repos/${GIT_USERNAME}/${GIT_REPO}/releases/assets/${id}"
+                    //        """
+                   // }
+            //    }
+         //   }
+	//	stage('Dockerfile 생성) {
+		//	steps {
+		//		script {	
+		//			def dockerfileContent = sh(script: "cat ${WORK_PATH}", returnStdout: true).trim()
+               //     sh "echo '${dockerfileContent}' > ${WORK_PATH}/my.Dockerfile"
+		// }
+	// }
+// }
 
        stage('Dockerfile 이미지로 빌드') {
             steps {
 				script {
 	 		   sh "docker login -u ${DOCKER_CREDENTIAL_USR} -p ${DOCKER_CREDENTIAL_PSW}"
-               sh 'docker build -t jun914/httpd ${WORK_PATH}/my.Dockerfile'
+               sh 'docker build -t jun914/httpd /home/vagrant/ubuntu_apache2'
 				}
 			}
 	         // Dockerfile 로 이미지 생성	//workspace/프로젝트이름 안에 기본 경로 만들어짐
