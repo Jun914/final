@@ -5,7 +5,7 @@ pipeline {
         GIT_REPO = '1_project'
         GIT_USERNAME = 'Jun914'
         TAG_VERSION = 'v5.0.2'
-        
+        id = readFile("${JENKINS_HOME}/workspace/release_project/release_id2.txt").trim()
         DOCKER_CREDENTIAL = credentials('docker-cred')
         IMAGE_TAG_NAME = 'test'
 		WORK_PATH = '/var/lib/jenkins/workspace/final_project'
@@ -19,18 +19,23 @@ pipeline {
                 script {
 	          sh """
                           wget --header="Authorization: Bearer ${GITHUB_CRED_PSW}" -O Dockerfile \
-                             "https://api.github.com/repos/${GIT_USERNAME}/${GIT_REPO}/releases/assets/122573272"
+                             "https://api.github.com/repos/${GIT_USERNAME}/${GIT_REPO}/releases/assets/${id}"
                             """
                     }
                 }
             }
+		stage('Dockerfile 생성}
+			steps {
+				script {	
+					def dockerfileContent = sh(script: "cat ${WORK_PATH}", returnStdout: true).trim()
+                    sh "echo '${dockerfileContent}' > ${WORK_PATH}/my.Dockerfile"
 
 
        stage('Dockerfile 이미지로 빌드') {
             steps {
 				script {
 	 		   sh "docker login -u ${DOCKER_CREDENTIAL_USR} -p ${DOCKER_CREDENTIAL_PSW}"
-               sh 'docker build -t jun914/httpd ${WORK_PATH}/'
+               sh 'docker build -t jun914/httpd ${WORK_PATH}/my.Dockerfile'
 				}
 			}
 	         // Dockerfile 로 이미지 생성	//workspace/프로젝트이름 안에 기본 경로 만들어짐
