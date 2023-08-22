@@ -4,7 +4,7 @@ pipeline {
         GITHUB_CRED = credentials('git_cred') 
         GIT_REPO = '1_project'
         GIT_USERNAME = 'Jun914'
-        TAG_VERSION = 'v11.0.0'
+        TAG_VERSION = 'v5.0.2'
         id = readFile("${JENKINS_HOME}/workspace/release_project/release_id.txt").trim()
         DOCKER_CREDENTIAL = 'docker-cred'
         IMAGE_TAG_NAME = 'test'
@@ -18,34 +18,19 @@ pipeline {
             steps {
                 script {
                          sh """
-                          wget --header="Authorization: Bearer ${GITHUB_CRED_PSW}" -O test-${TAG_VERSION}.tar.gz \
+                          wget --header="Authorization: Bearer ${GITHUB_CRED_PSW}" -O 1.tar.gz \
                              "https://api.github.com/repos/${GIT_USERNAME}/${GIT_REPO}/releases/assets/${id}"
                             """
                     }
                 }
             }
-		
-   		stage('Extract Archive') {
-            	steps {
-                	script {
-                    def jsonContent = sh(script: 'cat test-v11.0.0.tar.gz', returnStdout: true).trim()
-                    def jsonData = readJSON text: jsonContent
-                    def base64EncodedFile = jsonData.base64_encoded_file
-                    
-                    sh """
-                        echo "$base64EncodedFile" | base64 -d > test.tar.gz
-                        tar -xvf test.tar.gz
-                    """
-                }
-            }
-        }
 
 
 		stage('가져온 파일 압축 해제') {
             steps {
                 script {
 					sh 'cd ${DOCKERFILE_PATH}'
-					sh 'tar -xvf test-v11.0.0.tar.gz'
+					sh 'tar -xvf 1.tar.gz'
 				}
 			}
 		}
