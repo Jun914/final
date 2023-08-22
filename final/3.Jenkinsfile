@@ -24,12 +24,13 @@ pipeline {
                     }
                 }
             }
-		stage('Dockerfile 생성}
+		stage('Dockerfile 생성)
 			steps {
 				script {	
 					def dockerfileContent = sh(script: "cat ${WORK_PATH}", returnStdout: true).trim()
                     sh "echo '${dockerfileContent}' > ${WORK_PATH}/my.Dockerfile"
-
+		}
+	}
 
        stage('Dockerfile 이미지로 빌드') {
             steps {
