@@ -4,7 +4,7 @@ pipeline {
         GITHUB_CRED = credentials('git_cred') 
         GIT_REPO = '1_project'
         GIT_USERNAME = 'Jun914'
-        TAG_VERSION = 'v8.0.0'
+        TAG_VERSION = 'v10.0.0'
         id = readFile("${JENKINS_HOME}/workspace/release_project/release_id.txt").trim()
         DOCKER_CREDENTIAL = 'docker-cred'
         IMAGE_TAG_NAME = 'test'
@@ -28,7 +28,7 @@ pipeline {
             steps {
                 script {
 					sh 'cd ${DOCKERFILE_PATH}'
-					sh 'tar -zvxf test-${TAG_VERSION}.tar.gz'
+					sh 'tar -xvf test-${TAG_VERSION}.tar.gz'
 				}
 			}
 		}
