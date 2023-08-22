@@ -17,11 +17,14 @@ pipeline {
         stage('Release에서 파일 가져오기') {
             steps {
                 script {
-                         sh """
-                          wget --header="Authorization: Bearer ${GITHUB_CRED_PSW}" -O ${GIT_REPO}-${TAG_VERSION}.tar.gz \
-                             "https://api.github.com/repos/${GIT_USERNAME}/${GIT_REPO}/releases/assets/${id}"
-                            """
-                    }
+	        def downloadUrl = sh(script: """
+                        curl -sSL -H "Authorization: Bearer ${GITHUB_CRED_PSW}" \
+                        "https://api.github.com/repos/${GIT_USERNAME}/${GIT_REPO}/releases/assets/${id}" | \
+                        jq -r '.browser_download_url'
+                    """, returnStdout: true).trim()
+
+                    sh "wget --header='Authorization: Bearer ${GITHUB_CRED_PSW}' -O ${GIT_REPO}-${TAG_VERSION}.tar.gz '${downloadUrl}'"
+                       
                 }
             }
 
