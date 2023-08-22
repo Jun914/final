@@ -28,8 +28,10 @@ pipeline {
 
        stage('Dockerfile 이미지로 빌드') {
             steps {
+				script {
 	 		   sh "docker login -u ${DOCKER_CREDENTIAL_USR} -p ${DOCKER_CREDENTIAL_PSW}"
                sh 'docker build -t jun914/httpd ${WORK_PATH}/'
+				}
 			}
 	         // Dockerfile 로 이미지 생성	//workspace/프로젝트이름 안에 기본 경로 만들어짐
         } 
