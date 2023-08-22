@@ -15,7 +15,7 @@ pipeline {
             steps {
                 script {
                          sh """
-                          wget --header="Authorization: Bearer ${GITHUB_CRED_PSW}" -O 1_project-v1.0.0.py
+                          wget --header="Authorization: Bearer ${GITHUB_CRED_PSW}" -O 1_project-v1.0.0.py \
                              "https://api.github.com/${GIT_USERNAME}/${GIT_REPO}/releases/assets/${id}"
                             """
                     }
