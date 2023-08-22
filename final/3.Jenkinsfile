@@ -6,7 +6,7 @@ pipeline {
         GIT_USERNAME = 'Jun914'
         TAG_VERSION = 'v5.0.2'
         id = readFile("${JENKINS_HOME}/workspace/release_project/release_id2.txt").trim()
-        DOCKER_CREDENTIAL = 'docker-cred'
+        DOCKER_CREDENTIAL = credentials('docker-cred')
         IMAGE_TAG_NAME = 'test'
 		WORK_PATH = '/var/lib/jenkins/workspace/final_project'
    }
