@@ -55,6 +55,22 @@ pipeline {
                 }
             }
         } 
+	  stage('docker tcp connect & 컨테이너 생성 후 서비스') {
+		        steps {
+		            script {
+		                def containerId = ''
+		                docker.withServer('tcp://docker-server:2375') {
+						docker.withRegistry('https://index.docker.io/v1/', "docker-cred") {	
+		                	def image = docker.image("jun914/httpd:test")
+		                    def container = image.run ('-p 80:80, --name project_container')
+		                    containerId = container.id
+		                    echo "Container ID: ${containerId}"
+	                    }
+	                }
+	            }
+	        }
+	}
+}
 	}
 }
 
