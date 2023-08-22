@@ -28,7 +28,7 @@ pipeline {
             steps {
                 script {
 					sh 'cd ${DOCKERFILE_PATH}'
-					sh 'tar -xvf test-${TAG_VERSION}.tar.gz'
+					sh 'tar -xvf test-v10.0.0.tar.gz'
 				}
 			}
 		}
