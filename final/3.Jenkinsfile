@@ -61,8 +61,7 @@ pipeline {
 		        steps {
 		            script {
 		                def containerId = ''
-		                docker.withServer('tcp://docker-server:2375') {
-			 		
+		                docker.withServer('tcp://192.168.10.14:2375') {
 		                def image = docker.image("docker.registry.co.kr/httpd:${TAG_VERSION}")
 		                    def container = image.run ('-p 888:80 --name project_container')
 		                    containerId = container.id
