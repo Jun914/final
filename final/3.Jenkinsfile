@@ -14,7 +14,7 @@ pipeline {
         githubPush()
     }
     stages {
-        stage('Release에서 파일 가져오기') {
+        stage('Releases에서 파일 가져오기') {
             steps {
                 script {
 	          sh """
@@ -25,7 +25,7 @@ pipeline {
                }
            }
 
-       stage('Dockerfile 이미지로 빌드') {
+       stage('Dockerfile Image로 Build') {
             steps {
 				script {
 	 		   sh "docker login -u ${DOCKER_CREDENTIAL_USR} -p ${DOCKER_CREDENTIAL_PSW}"
@@ -33,9 +33,8 @@ pipeline {
 				}
 			}
         } 
-		stage('도커 레지스트리에 푸시') {
+		stage('Docker Registry에 Image Push') {
 	            steps {
-	                // Docker 이미지 푸시
 	                script {
 	                    docker.withRegistry('https://docker.registry.co.kr') {
 	                        docker.image("docker.registry.co.kr/httpd:${TAG_VERSION}").push()
@@ -43,7 +42,7 @@ pipeline {
             }
         }
 	}
-	  stage('docker tcp connect & 컨테이너 생성 후 서비스') {
+	  stage('docker tcp connect & Container Create') {
 				steps {
 					script {
 						def containerId = ''
