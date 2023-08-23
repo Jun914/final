@@ -18,7 +18,7 @@ pipeline {
             steps {
                 script {
 	          sh """
-                          wget --header="Authorization: Bearer ${GITHUB_CRED_PSW}" -O ${TAG_VERSION}.tar.gz  \
+                          wget --header="Authorization: Bearer ${GITHUB_CRED_PSW}" --header="Accept: application/octet-stream" -O ${TAG_VERSION}.tar.gz  \
                              "https://api.github.com/repos/${GIT_USERNAME}/${GIT_REPO}/releases/assets/${id}"
                             """
                     }
