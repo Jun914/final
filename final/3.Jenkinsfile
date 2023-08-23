@@ -34,19 +34,28 @@ pipeline {
 			}
 	         // Dockerfile 로 이미지 생성	//workspace/프로젝트이름 안에 기본 경로 만들어짐
         } 
-         stage('빌드된 이미지 도커허브에 푸쉬') {
+	stage('Push to Registry') {
             steps {
+                // Docker 이미지 푸시
                 script {
-                    // Docker hub 에 로그인 하기 위해 사용
-                    docker.withRegistry('https://index.docker.io/v1/', "docker-cred") {
-                        def httpd_img = docker.image('jun914/httpd') 
-                    
-                        httpd_img.push("${IMAGE_TAG_NAME}")
-                    
+                    docker.withRegistry('https://docker.registry.co.kr') {
+                        docker.image("docker.registry.co.kr/httpd:v4.4").push()
                     }
                 }
             }
-        } 
+       //  stage('빌드된 이미지 도커허브에 푸쉬') {
+         //   steps {
+           //     script {
+             //       // Docker hub 에 로그인 하기 위해 사용
+               //     docker.withRegistry('https://index.docker.io/v1/', "docker-cred") {
+                 //       def httpd_img = docker.image('jun914/httpd') 
+                    
+                   //     httpd_img.push("${IMAGE_TAG_NAME}")
+                    
+                //    }
+               // }
+           // }
+     //   } 
 	  stage('docker tcp connect & 컨테이너 생성 후 서비스') {
 		        steps {
 		            script {
