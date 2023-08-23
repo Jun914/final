@@ -4,7 +4,7 @@ pipeline {
         GITHUB_CRED = credentials('git_cred') 
         GIT_REPO = '1_project'
         GIT_USERNAME = 'Jun914'
-        TAG_VERSION = 'v1.0.0'
+        TAG_VERSION = 'v1.0.1'
         id = readFile("${JENKINS_HOME}/workspace/release_project/release_id2.txt").trim()
         DOCKER_CREDENTIAL = credentials('docker-cred')
         IMAGE_TAG_NAME = 'test'
