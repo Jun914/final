@@ -62,7 +62,7 @@ pipeline {
 		            script {
 		                def containerId = ''
 		                docker.withServer('tcp://docker-server:2375') {
-				docker.withRegistry('https://index.docker.io/v1/', "docker-cred") {	
+			 	{	
 		                def image = docker.image("docker.registry.co.kr/httpd:${TAG_VERSION}")
 		                    def container = image.run ('-p 888:80 --name project_container')
 		                    containerId = container.id
