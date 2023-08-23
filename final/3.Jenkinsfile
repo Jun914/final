@@ -36,7 +36,7 @@ pipeline {
             steps {
 				script {
 	 		   sh "docker login -u ${DOCKER_CREDENTIAL_USR} -p ${DOCKER_CREDENTIAL_PSW}"
-               sh 'docker build -t docker.registry.co.kr/httpd:${TAG_VERSION} /home/vagrant/ubuntu_apache2'
+               sh 'docker build -t docker.registry.co.kr/httpd:${TAG_VERSION} ${WORK_PATH}/ubuntu_apache2'
 				}
 			}
         } 
