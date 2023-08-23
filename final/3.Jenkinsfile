@@ -29,7 +29,7 @@ pipeline {
             steps {
 				script {
 	 		   sh "docker login -u ${DOCKER_CREDENTIAL_USR} -p ${DOCKER_CREDENTIAL_PSW}"
-               sh 'docker build -t jun914/httpd /home/vagrant/ubuntu_apache2'
+               sh 'docker build -t docker.registry.co.kr/httpd:${TAG_VERSION} /home/vagrant/ubuntu_apache2'
 				}
 			}
 	         // Dockerfile 로 이미지 생성	//workspace/프로젝트이름 안에 기본 경로 만들어짐
@@ -39,7 +39,7 @@ pipeline {
                 // Docker 이미지 푸시
                 script {
                     docker.withRegistry('https://docker.registry.co.kr') {
-                        docker.image("docker.registry.co.kr/httpd:v4.4").push()
+                        docker.image("docker.registry.co.kr/httpd:${TAG_VERSION}").push()
                     }
                 }
             }
@@ -62,8 +62,8 @@ pipeline {
 		            script {
 		                def containerId = ''
 		                docker.withServer('tcp://docker-server:2375') {
-						docker.withRegistry('https://index.docker.io/v1/', "docker-cred") {	
-		                	def image = docker.image("jun914/httpd:test")
+				docker.withRegistry('https://index.docker.io/v1/', "docker-cred") {	
+		                def image = docker.image("docker.registry.co.kr/httpd:${TAG_VERSION}")
 		                    def container = image.run ('-p 888:80 --name project_container')
 		                    containerId = container.id
 		                    echo "Container ID: ${containerId}"
