@@ -24,6 +24,13 @@ pipeline {
                     }
                }
            }
+		stage('압축해제') {
+			steps {
+				script {
+					sh 'tar -xvf ${TAG_VERSION}.tar.gz -C /home/vagrant'
+				}
+			}
+		}
 
        stage('Dockerfile Image로 Build') {
             steps {
@@ -33,14 +40,7 @@ pipeline {
 				}
 			}
         } 
-		stage('압축해제') {
-			steps {
-				script {
-					sh 'tar -xvf ${TAG_VERSION}.tar.gz -C /home/vagrant'
-				}
-			}
-		}
-
+		
 		stage('Docker Registry에 Image Push') {
 	            steps {
 	                script {
