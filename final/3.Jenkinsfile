@@ -14,24 +14,16 @@ pipeline {
         githubPush()
     }
     stages {
-       // stage('Release에서 파일 가져오기') {
-        //    steps {
-         //       script {
-	    //      sh """
-                 //         wget --header="Authorization: Bearer ${GITHUB_CRED_PSW}" -O Dockerfile \
-                  //           "https://api.github.com/repos/${GIT_USERNAME}/${GIT_REPO}/releases/assets/${id}"
-                    //        """
-                   // }
-            //    }
-         //   }
-	//	stage('Dockerfile 생성) {
-		//	steps {
-		//		script {	
-		//			def dockerfileContent = sh(script: "cat ${WORK_PATH}", returnStdout: true).trim()
-               //     sh "echo '${dockerfileContent}' > ${WORK_PATH}/my.Dockerfile"
-		// }
-	// }
-// }
+        stage('Release에서 파일 가져오기') {
+            steps {
+                script {
+	          sh """
+                          wget --header="Authorization: Bearer ${GITHUB_CRED_PSW}" -O Dockerfile \
+                             "https://api.github.com/repos/${GIT_USERNAME}/${GIT_REPO}/releases/assets/${id}"
+                            """
+                    }
+               }
+           }
 
        stage('Dockerfile 이미지로 빌드') {
             steps {
