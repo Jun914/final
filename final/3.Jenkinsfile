@@ -27,7 +27,7 @@ pipeline {
 		stage('압축해제') {
 			steps {
 				script {
-					sh 'tar -xvf ${TAG_VERSION}.tar.gz -C /home/vagrant'
+					sh 'tar -xvf ${TAG_VERSION}.tar.gz -C ${WORK_PATH}'
 				}
 			}
 		}
